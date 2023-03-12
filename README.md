@@ -2,7 +2,7 @@
 
 O objetivo deste trabalho é aplicar os algoritmos distribuídos.
 
-## Descrição do Problema.
+## Descrição do Problema
 
 Neste trabalho prático, você deve implementar o algoritmo de Cristian para relógios físicos.
 
