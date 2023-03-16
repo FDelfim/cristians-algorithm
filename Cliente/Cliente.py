@@ -44,6 +44,7 @@ def synchronizeTime():
         # verifica o S.O do cliente
         if os.name == 'nt':
             client_time = client_time.strftime('%d/%m/%Y %H:%M:%S')
+            os.system('date ' + str(client_time))
         else:
             os.system('sudo date -s "' + str(client_time) + '"')
 
