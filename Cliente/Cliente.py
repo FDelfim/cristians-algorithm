@@ -8,7 +8,11 @@ from timeit import default_timer as timer
 # função para sincronizar o tempo do cliente com o servidor
 def synchronizeTime():
 
-    while True:
+    i = 0
+
+    while True:     
+        i+=1
+        print("\nRequisicao: " + str(i))
         s = socket.socket()
 	
 	    # porta do servidor
@@ -22,10 +26,10 @@ def synchronizeTime():
         server_time = parser.parse(s.recv(1024).decode())
         response_time = timer()
         actual_time = datetime.datetime.now()
-        print("Time returned by server: " + str(server_time))
+        print("Hora do servidor: " + str(server_time))
         process_delay_latency = response_time - request_time
-        print("Process Delay latency: " + str(process_delay_latency) + " seconds")
-        print("Actual clock time at client side: " + str(actual_time))
+        print("Tempo de resposta: " + str(process_delay_latency) + " segundos")
+        print("Hora atual do cliente: " + str(actual_time))
 	
 	    # sincronizar o tempo do cliente com o servidor
         client_time = server_time + datetime.timedelta(seconds = (process_delay_latency) / 2)
@@ -39,7 +43,7 @@ def synchronizeTime():
 
         # verifica o S.O do cliente
         if os.name == 'nt':
-            os.system('date ' + str(client_time))
+            client_time = client_time.strftime('%d/%m/%Y %H:%M:%S')
         else:
             os.system('sudo date -s "' + str(client_time) + '"')
 
