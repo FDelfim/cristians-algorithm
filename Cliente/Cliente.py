@@ -33,26 +33,50 @@ def synchronizeTime():
 	
 	    # sincronizar o tempo do cliente com o servidor
         client_time = server_time + datetime.timedelta(seconds = (process_delay_latency) / 2)
-        print("Synchronized process client time: " + str(client_time))
+        print("Horário do cliente de processo sincronizado: " + str(client_time))
 	
         # calcular o erro de sincronização
         error = actual_time - client_time
-        print("Synchronization error : "+ str(error.total_seconds()) + " seconds")
+        print("Erro de sincronização : "+ str(error.total_seconds()) + " seconds")
 
         s.close()	
 
         # verifica o S.O do cliente
         if os.name == 'nt':
-            client_time = client_time.strftime('%d/%m/%Y %H:%M:%S')
-            os.system('date ' + str(client_time))
+            error_seconds = (datetime.datetime.now() - client_time).total_seconds()
+            if abs(error_seconds/1800) < 1:
+                os.system('date "{}"'.format(client_time.strftime('%m-%d-%Y %H:%M:%S')))
+            else:
+                while abs(error_seconds) > 1:
+                    if abs(error_seconds/1800) < 1:
+                        os.system('date "{}"'.format(client_time.strftime('%m-%d-%Y %H:%M:%S')))
+                        break
+                    if error_seconds > 1:
+                        os.system('date "{}"'.format(datetime.datetime.now() - datetime.timedelta(seconds=1800)))
+                    else:
+                        os.system('date "{}"'.format(datetime.datetime.now() + datetime.timedelta(seconds=1800)))
+                    print("Atualização gradual do cliente. Erro: {} segundos".format(error_seconds))
+                    time.sleep(5)
+                    error_seconds = (datetime.datetime.now() - client_time).total_seconds()
         else:
-            os.system('sudo date -s "' + str(client_time) + '"')
+            error_seconds = (datetime.datetime.now() - client_time).total_seconds()
+            if abs(error_seconds/1800) < 1:
+                os.system('sudo date -s "{}"'.format(client_time))
+            else:
+                while abs(error_seconds) > 1:
+                    if abs(error_seconds/1800) < 1:
+                        os.system('sudo date -s "{}"'.format(client_time))
+                        break
+                    if error_seconds > 1:
+                        os.system('sudo date -s "{}"'.format(datetime.datetime.now() - datetime.timedelta(seconds=1800)))
+                    else:
+                        os.system('sudo date -s "{}"'.format(datetime.datetime.now() + datetime.timedelta(seconds=1800)))
+                    print("Atualização gradual do cliente. Erro: {} segundos".format(error_seconds))
+                    time.sleep(5)
 
-        #faz o cliente fazer uma requisicao a cada 30 segundos
-        time.sleep(30)
+                    error_seconds = (datetime.datetime.now() - client_time).total_seconds()
+        time.sleep(10)
 	
-
-
 
 if __name__ == '__main__':
 	synchronizeTime()

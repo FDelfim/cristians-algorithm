@@ -22,7 +22,7 @@ def initiateClockServer():
 
     # Loop infinito para aceitar conexões
     while True:
-    #    pegue o horario atual do ntp
+        #pegue o horario atual do ntp
         ntp_server = 'pool.ntp.org'
         ntp_client = ntplib.NTPClient()
 
