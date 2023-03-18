@@ -4,6 +4,7 @@ import time
 import os
 from dateutil import parser
 from timeit import default_timer as timer
+import win32api
 
 # função para sincronizar o tempo do cliente com o servidor
 def synchronizeTime():
@@ -43,21 +44,25 @@ def synchronizeTime():
 
         # verifica o S.O do cliente
         if os.name == 'nt':
-            error_seconds = (datetime.datetime.now() - client_time).total_seconds()
-            if abs(error_seconds/1800) < 1:
-                os.system('date "{}"'.format(client_time.strftime('%m-%d-%Y %H:%M:%S')))
-            else:
-                while abs(error_seconds) > 1:
-                    if abs(error_seconds/1800) < 1:
-                        os.system('date "{}"'.format(client_time.strftime('%m-%d-%Y %H:%M:%S')))
-                        break
-                    if error_seconds > 1:
-                        os.system('date "{}"'.format(datetime.datetime.now() - datetime.timedelta(seconds=1800)))
-                    else:
-                        os.system('date "{}"'.format(datetime.datetime.now() + datetime.timedelta(seconds=1800)))
-                    print("Atualização gradual do cliente. Erro: {} segundos".format(error_seconds))
-                    time.sleep(5)
-                    error_seconds = (datetime.datetime.now() - client_time).total_seconds()
+             error_seconds = error.total_seconds()
+             if abs(error_seconds / 1800) < 1:
+                 nova_hora = client_time.strftime("%Y,%m,%d,%w,%H,%M,%S,%j")
+                 win32api.SetSystemTime(*tuple(map(int, nova_hora.split(','))))
+             else:
+                 while abs(error_seconds) > 1:
+                     if abs(error_seconds / 1800) < 1:
+                         nova_hora = client_time.strftime("%Y,%m,%d,%w,%H,%M,%S,%j")
+                         win32api.SetSystemTime(*tuple(map(int, nova_hora.split(','))))
+                         break
+                     if error_seconds > 1:
+                         nova_hora = (datetime.datetime.now() - datetime.timedelta(seconds=1800)).strftime("%Y,%m,%d,%w,%H,%M,%S,%j")
+                         win32api.SetSystemTime(*tuple(map(int, nova_hora.split(','))))
+                     else:
+                         nova_hora = (datetime.datetime.now() + datetime.timedelta(seconds=1800)).strftime("%Y,%m,%d,%w,%H,%M,%S,%j")
+                         win32api.SetSystemTime(*tuple(map(int, nova_hora.split(','))))
+                     print("Atualização gradual do cliente. Erro: {} segundos".format(error_seconds))
+                     time.sleep(5)
+                     error_seconds = (datetime.datetime.now() - client_time).total_seconds()
         else:
             error_seconds = (datetime.datetime.now() - client_time).total_seconds()
             if abs(error_seconds/1800) < 1:
