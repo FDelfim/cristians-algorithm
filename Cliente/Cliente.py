@@ -57,12 +57,10 @@ def synchronizeTime():
                     if error_seconds > 1:
                         new_time = datetime.datetime.now() + datetime.timedelta(hours=2, minutes=30)
                         print('Atrasando relógio: ')
-                        print(new_time.hour, new_time.minute, new_time.second, new_time.microsecond / 1000)
                         win32api.SetSystemTime(int(new_time.year), int(new_time.month), 0, int(new_time.day), int(new_time.hour), int(new_time.minute), int(new_time.second), 0)
                     else:
                         new_time = datetime.datetime.now() + datetime.timedelta(minutes=30) + datetime.timedelta(hours=3)
                         print('Adiantando relógio: ')
-                        print(new_time.hour, new_time.minute, new_time.second, 0)
                         win32api.SetSystemTime(int(new_time.year), int(new_time.month), 0, int(new_time.day), int(new_time.hour), int(new_time.minute), int(new_time.second), 0)
                     print("Atualização gradual do cliente. Erro: {} segundos".format(error_seconds))
                     time.sleep(5)
