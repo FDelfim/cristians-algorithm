@@ -47,30 +47,18 @@ def synchronizeTime():
             error_seconds = (datetime.datetime.now() - client_time).total_seconds()
             if abs(error_seconds/1800) < 1:
                 # set system time
-                win32api.SetSystemTime(int(client_time.year), int(client_time.month), client_time.weekday(),
-                                       int(client_time.day), int(client_time.hour),
-                                       int(client_time.minute), int(client_time.second),
-                                       int(client_time.second / 1000))
+                win32api.SetSystemTime(int(client_time.year), int(client_time.month), 0, int(client_time.day), int(client_time.hour), int(client_time.minute), int(client_time.second), int(client_time.second * 1000))
             else:
                 while abs(error_seconds) > 1:
                     if abs(error_seconds/1800) < 1:
-                        win32api.SetSystemTime(int(client_time.year), int(client_time.month), client_time.weekday(),
-                                               int(client_time.day), int(client_time.hour),
-                                               int(client_time.minute), int(client_time.second),
-                                               int(client_time.second / 1000))
+                        win32api.SetSystemTime(int(client_time.year), int(client_time.month), 0, int(client_time.day), int(client_time.hour), int(client_time.minute), int(client_time.second), int(client_time.second * 1000))
                         break
                     if error_seconds > 1:
                         new_time = datetime.datetime.now() - datetime.timedelta(seconds=1800)
-                        win32api.SetSystemTime(int(new_time.year), int(new_time.month), client_time.weekday(),
-                                               int(new_time.day), int(new_time.hour),
-                                               int(new_time.minute), int(new_time.second),
-                                               int(new_time.second / 1000))
+                        win32api.SetSystemTime(int(new_time.year), int(new_time.month), 0, int(new_time.day), int(new_time.hour), int(new_time.minute), int(new_time.second), int(new_time.second * 1000))
                     else:
                         new_time = datetime.datetime.now() + datetime.timedelta(seconds=1800)
-                        win32api.SetSystemTime(int(new_time.year), int(new_time.month), client_time.weekday(),
-                                               int(new_time.day), int(new_time.hour),
-                                               int(new_time.minute), int(new_time.second),
-                                               int(new_time.second / 1000))
+                        win32api.SetSystemTime(int(new_time.year), int(new_time.month), 0, int(new_time.day), int(new_time.hour), int(new_time.minute), int(new_time.second), int(new_time.second * 1000))
                     print("Atualização gradual do cliente. Erro: {} segundos".format(error_seconds))
                     time.sleep(5)
                     error_seconds = (datetime.datetime.now() - client_time).total_seconds()
