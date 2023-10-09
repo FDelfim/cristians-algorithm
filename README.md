@@ -1,17 +1,17 @@
-# <a href='https://pt.wikipedia.org/wiki/Algoritmo_de_Cristian' target="_blank"> Algorítmo de Cristian </a>
+# [Cristian's Algorithm](https://en.wikipedia.org/wiki/Cristian%27s_algorithm)
 
-O objetivo deste trabalho é aplicar os algoritmos distribuídos.
+The goal of this work is to apply distributed algorithms.
 
-## Descrição do Problema
+## Problem Description
 
-Neste trabalho prático, você deve implementar o algoritmo de Cristian para relógios físicos.
+In this practical assignment, you are required to implement Cristian's algorithm for physical clocks.
 
-O sistema distribuído sempre deve ter um dispositivo com a hora exata, atualizado através do protocolo NTP. Esse computador será responsável por atualizar os demais dispositivos.
+The distributed system should always have a device with the exact time, updated through the NTP protocol. This computer will be responsible for updating the other devices.
 
-O algoritmo de Cristian deve usar estimativas do RTT para atualizar os demais relógios.
+Cristian's algorithm should use estimates of RTT (Round Trip Time) to update the other clocks.
 
-A alteração das horas deve ser feita gradativamente.
+The change in time should be made gradually.
 
-O algoritmo de sincronização deve rodar periodicamente.
+The synchronization algorithm should run periodically.
 
-A rede deve possuir no mínimo 3 dispositivos.
+The network should have a minimum of 3 devices.
